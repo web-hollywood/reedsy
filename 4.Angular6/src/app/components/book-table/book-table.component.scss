@@ -1,0 +1,19 @@
+table {
+    width: 100%;
+  }
+.thumbnailImg{
+  width: 100px !important;
+}
+
+tr:nth-child(even){
+  background-color: #FFFFE0 !important;
+}
+
+.store-link{
+  text-decoration: none !important;
+  color: brown;
+}
+
+tr{
+  cursor: pointer;
+}

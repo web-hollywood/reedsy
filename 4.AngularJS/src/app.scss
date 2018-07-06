@@ -1,0 +1,40 @@
+@import "~bootstrap/scss/bootstrap";
+
+body {
+    background: #f5f1ec;
+}
+.odd-bg {
+    background: #faf9f7;
+}
+.text-light {
+    color: #eae8e2;
+}
+h1 {
+    color: #2a2a2a;
+}
+.cursor-pointer {
+    cursor: pointer;
+}
+#app {
+    border-radius: 20px;
+    background: #fff;
+    margin: 0 auto;
+    padding: 20px;
+    .col-title {
+        color: #a0a0a0;
+    }
+    .book-title {
+        color: #2a2a2a;
+        font-weight: bold;
+    }
+    .author {
+        color: #a5a5a5;
+    }
+    a {
+        color: #bdd284;
+        font-weight: bold;
+    }
+    img {
+        height: 120px;
+    }
+}

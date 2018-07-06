@@ -1,0 +1,37 @@
+.body{
+    padding: 0px;
+    margin: 0px;
+}
+img {
+    height: 180px;
+    width: 130px;
+    float: left;
+}
+
+.subh{
+    font-size:  1.05em;;
+    color: gray;
+}
+
+.heading {
+    color: darkslategrey;
+    font-weight: 600;
+}
+
+.close {
+    width: 100%;
+}
+
+.close-btn {
+    float: right;
+    outline: 0;
+}
+
+.example-header-image {
+    background-size: cover;
+}
+
+.store-link{
+    text-decoration: none !important;
+    color: brown;
+}

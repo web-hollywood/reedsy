@@ -1,0 +1,62 @@
+<mat-dialog-content>
+  <div *ngIf="data" class="container-fluid row body">
+    <div class="col-md-3">
+      <img mat-card-image src="{{data.thumbnail}}" onerror="this.src='../../../../assets/images/book.png'" alt="Book">
+    </div>
+    <div class="details col-md-9">
+      <h5 class="heading">{{data.title}}</h5>
+      <div>
+        <p class="row">
+          <span class="subh col-md-2">Id: </span>
+          <span class="col-md-9"> {{data.id}} </span>
+        </p>
+        <p class="row">
+          <span class="subh col-md-2">Authors:</span>
+          <span class="col-md-9">
+            <span *ngFor="let author of data.author; last as last">{{author}}
+              <span *ngIf="!last">, &nbsp;</span>
+            </span> 
+          </span>
+        </p>
+        <p *ngIf="data.published" class="row">
+          <span class="subh col-md-2">Published:</span>
+          <span class="col-md-9">
+              {{data.published}}
+          </span>
+        </p>
+
+        <p *ngIf="data.rating" class="row">
+          <span class="subh col-md-2">Rating:</span>
+          <span class="col-md-9">
+              {{data.rating}}/10
+          </span>
+        </p>
+
+        <p *ngIf="data.stores" class="row">
+          <span class="subh col-md-2">Buy:</span>
+          <span class="col-md-9">
+              <span *ngFor="let store of data.stores; last as last">
+                  <span *ngIf="!!store.url">
+                    <a matTooltip="Go to store" class="store-link"  target="_blank" rel="noopener noreferrer" [href]="store.url">
+                      {{store.name}}
+                    </a>
+                    <span *ngIf="!last" >, </span>
+                  </span>
+              </span>
+          </span>
+        </p>
+
+        <p *ngIf="data.description" class="row text-justify">
+          <span class="subh col-md-2">Details:</span>
+          <span class="col-md-9">
+              {{data.description}}
+          </span>
+        </p>
+
+      </div>
+    </div>
+    <div class="close col-xs-12">
+        <button class="close-btn" mat-button (click)="close()">Close</button>
+    </div>
+  </div>
+</mat-dialog-content>

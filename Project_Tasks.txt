@@ -1,0 +1,66 @@
+Question 1: 
+
+The best project would be this :
+
+Link : https://ppcentourage.com/
+
+In this project, my role was a full stack developer.
+Meaning that I participated in both integrating backend apis and building pages on frontend side.
+We used NodeJS(sails.js) and MongoDB on backend side and AngularJS(1.6x) on frontend side.
+The purpose of this project is to optimize Sponsored Products campaigns by using ppc-campaign data from amazon mws services.
+
+
+Questions 2: Document versioning
+
+As I understood, this point talks about how to efficiently store updated versions of the same uploaded document in a memory efficient way.
+It is always better and advised to not to store the full versions of the documents rather to store the differentials.
+Since it is mentioned that "test-based documents" so it will be efficient to store the differentials rather than to store the whole document every time.
+Initially the full document should be stored in the database as a BLOB storage or can be stored in a media server as well.
+From the next versions, only the differentials should be stored in the DB.
+
+Now if the document needs to be created for a particular version, then the document needs to be recreated taking the initial snapshot and applying the changes accordingly that should be maintained in the DB.
+
+Please find the link of a very basic schema which will be required for the implementation of the different versions of a document.
+
+Link : https://ibb.co/jBpvpy
+
+So taking the actual document and applying the different version changes, we can get the complete document of a particular version.
+
+
+
+Question 3: Node.js REST Api 
+
+For the rest API task please use the below command to run and test:
+
+npm install
+npm start
+
+
+
+Question 4: UI Task 
+
+I implement the UI task by using Angular1.x and Angular6.
+
+- Angular1.6
+
+npm install
+npm start
+npm test
+
+- Angular6 ( node version >= 10)
+
+For UI task please use the below commands:
+
+npm install
+npm start
+npm run test
+
+
+
+Question 5: Bonus task 
+
+
+For Bonus task please use the below commands: 
+
+npm install
+npm test
