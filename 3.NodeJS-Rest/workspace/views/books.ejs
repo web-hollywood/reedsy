@@ -1,0 +1,198 @@
+    <!DOCTYPE html>
+    <html>      
+
+    <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title><%= title %></title>
+    
+    <!-- script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script -->
+    <!-- script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+
+
+    <style>
+
+        html, body{
+            margin:0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        th{
+            color: gray;
+            padding: 15px;
+        }
+        .striped{
+            background-color: #F5F1ED;
+        }
+        td { 
+           padding: 15px;
+        }
+        .book_title{
+            color: black;
+            font-weight: bold;
+            line-height: 2;
+        }
+        .book_author{
+            color:gray;
+        }
+        .book_link{
+            color: #BFD489;
+            font-weight: bold;            
+        }
+
+
+    </style>
+
+    </head>
+
+    <body ng-app="myApp" ng-controller="myCtrl">
+    
+
+    <div style="border: 20px solid #F5F1ED; margin: 3%; padding:1%; overflow-x:auto;">
+
+    <span style="padding:10px; font-size: 24px; font-weight: bold;">Most popular Books of All time</span>
+
+        <table  
+        style="width: 98%; margin: 10px; text-align: left;" cellspacing="0" border="0">
+
+            <tr>
+                    <th style="width: 5%">TITLE</th>
+                    <th></th>
+                    <th>PUBLISHED</th>
+                    <th>RATING</th>
+                    <th>BUY ON</th>
+            </tr>
+
+            <tr ng-repeat-start="book in bookApiResult.books" ng-class-odd="'striped'">
+
+                    <td style="width: 7%" ng-click="showDetails = ! showDetails">
+                        <img src="{{ book.img_url }}" width="100%">
+                    </td>
+                    <td style="vertical-align: top;" ng-click="showDetails = ! showDetails">
+                        <span class='book_title'>{{ book.title }}</span> <br/>
+                        <span class='book_author'>{{ book.author }}</span></td>
+                    <td ng-click="showDetails = ! showDetails">{{ book.published_year }}</td>
+                    <td ng-click="showDetails = ! showDetails">{{ book.rating }}/10</td>
+
+                    <td class="book_link">                        
+                        <p ng-bind-html="storeSplit(book.stores_links)">
+                        </p>
+                    </td>
+
+            </tr>
+
+            <tr ng-repeat-end="book in bookApiResult.books" ng-class-odd="'striped'" align="justify" ng-show="showDetails">
+
+                    <td colspan="5">
+                        {{ book.description }}
+                    </td>
+            </tr>                  
+              
+
+
+        </table>
+
+        <center style="font-weight: bold">
+                <span title="First" style="cursor:pointer;" ng-click='loadFirstPage()'>&lt;&lt;</span> &nbsp;&nbsp;&nbsp; 
+                <span title="Previous" style="cursor:pointer;" ng-click='loadPrevPage()'>&nbsp;&lt;&nbsp;</span> 
+                 &nbsp; Page {{ currentPage }} of {{ totalPage }} &nbsp;
+                <span title="Next" style="cursor:pointer;" ng-click='loadNextPage()'>&nbsp;&gt;&nbsp;</span>&nbsp;&nbsp;&nbsp;
+                <span title="Last" style="cursor:pointer;" ng-click='loadLastPage()'>&gt;&gt;</span> 
+        </center>    
+
+    </div>
+
+
+        
+    </body>
+
+    </html>
+
+
+<script type="text/javascript">
+
+
+        var app = angular.module('myApp', []);
+
+        app.controller('myCtrl', function($scope, $http, $sce) {
+
+            // used for pagination 
+            $scope.currentPage = 1;
+            $scope.totalPage = 1;
+
+            // make http connection and load book data from server
+            $scope.loadBookData = function(pageNum) {
+
+                $http({
+                    method : "GET",
+                    url : "ws/book?page=" + pageNum
+                }).then(function mySuccess(response) {
+                        $scope.bookApiResult = response.data;     
+                        // alert($scope.bookApiResult.total_page);
+                        $scope.currentPage = pageNum;
+                        $scope.totalPage = $scope.bookApiResult.total_page;               
+                }, function myError(response) {
+                        $scope.bookApiResult = response.statusText;
+                });
+
+            }
+
+            // split the data of the multiple store 
+            // A book can exists on the multiple store.
+            $scope.storeSplit = function(strval) {
+                
+                var resultStr = "";
+                // alert(strval);
+                if(strval){
+                    var rowArr = strval.split("<----->");
+                    // alert('row=' + rowArr.length);                
+                    for(i=0;i<rowArr.length;i++){
+                        var colArr = rowArr[i].split(";");
+                        // alert("col=" + colArr.length);  
+                        var storeName = colArr[0];        // store name
+                        var storeUrl = colArr[1];        // URL
+                        resultStr += "<a href='" + storeUrl + "' target='_blank'>" + storeName + "</a><br/>";
+                    }
+                }
+                // console.log(resultStr);    
+                // return $sce.trustAsHtml(resultStr);   
+                return $sce.trustAsHtml(resultStr);   
+            };
+
+            // Load previous page
+            $scope.loadFirstPage = function() {                
+                if($scope.currentPage != 1){
+                    $scope.loadBookData(1);
+                } 
+                return false;
+            };   
+            // Load previous page
+            $scope.loadPrevPage = function() {                
+                if($scope.currentPage > 1){
+                    $scope.loadBookData($scope.currentPage-1);
+                } 
+                return false;
+            };          
+            // Load next page              
+            $scope.loadNextPage = function() {   
+                if($scope.currentPage < $scope.totalPage){
+                    $scope.loadBookData($scope.currentPage+1);
+                }             
+                return false;
+            };       
+            // Load next page              
+            $scope.loadLastPage = function() {   
+                if($scope.currentPage != $scope.totalPage){
+                    $scope.loadBookData($scope.totalPage);
+                }         
+                return false;
+            };       
+
+            // load first page 
+            $scope.loadBookData(1);
+
+        });
+
+       
+        
+</script>
